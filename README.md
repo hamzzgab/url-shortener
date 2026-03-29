@@ -50,8 +50,8 @@ This roadmap guides you through each milestone, from a basic health check endpoi
 ### **TASK 1.1 — Understand the Concepts**
 
 #### Redis
-- [ ] [Redis in 100 Seconds](https://www.youtube.com/watch?v=G1rOthIU-uo)  
-- [ ] [Redis Crash Course](https://www.youtube.com/watch?v=jgpVdJB2sKQ)
+- [X] [Redis in 100 Seconds](https://www.youtube.com/watch?v=G1rOthIU-uo)  
+- [X] [Redis Crash Course](https://www.youtube.com/watch?v=jgpVdJB2sKQ)
 
 #### Web Backend
 - [ ] [FastAPI Tutorial](https://www.youtube.com/watch?v=0sOvCWFmrtA)  

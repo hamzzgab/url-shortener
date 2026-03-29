@@ -86,22 +86,6 @@ HEXISTS person name       # → 1 if field exists, 0 if not
 
 ---
 
-
-## NPM
-
-```bash npm i redis```
-
-
-### Initialisation
-```typescript
-const DEFAULT_EXPIRATION = 3600
-
-const Redis = require('redis')
-const redisClient = Redis.createClient()
-
-redis.Client.setex('/photos', DEFAULT_EXPIRATION, Json.stringify(data))
-```
-
 ## Quick Reference Summary
 
 | Command       | Description                          |

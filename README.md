@@ -63,3 +63,12 @@ This roadmap guides you through each milestone, from a basic health check endpoi
 - [ ] Run Redis locally:  
   ```bash
   docker run -d -p 6379:6379 redis
+
+## **TASK 1.2 — FastAPI Setup**
+- [ ] Create a minimal FastAPI app
+- [ ] Implement:
+    ```python 
+  GET /health → {"status": "ok"}
+- [ ]Test in browser or using:
+    ```bash
+  curl http://localhost:8000/health

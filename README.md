@@ -8,21 +8,21 @@ This roadmap guides you through each milestone, from a basic health check endpoi
 ## 🚀 Milestones
 
 ### **Milestone 1 — Hello Server**
-- [ ] Start a FastAPI server locally  
-- [ ] Implement `GET /health` → returns `{ "status": "ok" }`  
-- [ ] Verify via browser or `curl`
+- [X] Start a FastAPI server locally  
+- [X] Implement `GET /health` → returns `{ "status": "ok" }`  
+- [X] Verify via browser or `curl`
 
 ---
 
 ### **Milestone 2 — Shorten a URL (No DB Yet)**
-- [ ] Add `POST /shorten`  
+- [X] Add `POST /shorten`  
   - Accepts a long URL  
   - Returns a **fake short code** (hard-coded for now)  
   - Store mappings in an in-memory Python dictionary  
-- [ ] Add `GET /{code}`  
+- [X] Add `GET /{code}`  
   - Looks up the code in the dictionary  
   - Returns the long URL  
-- [ ] Test both endpoints with `curl`
+- [X] Test both endpoints with `curl`
 
 ---
 

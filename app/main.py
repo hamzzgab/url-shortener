@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 
+from app.routers import urls
+
 app = FastAPI()
 
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Welcome to Url Shortener"}
 
-@app.get("/health")
-async def root():
-    return {"message": "ok"}
+
+app.include_router(urls.router)

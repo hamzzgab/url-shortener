@@ -1,5 +1,5 @@
-# Created by https://www.toptal.com/developers/gitignore/api/redis,python
-# Edit at https://www.toptal.com/developers/gitignore?templates=redis,python
+# Created by https://www.toptal.com/developers/gitignore/api/python
+# Edit at https://www.toptal.com/developers/gitignore?templates=python
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -173,9 +173,5 @@ poetry.toml
 # LSP config files
 pyrightconfig.json
 
-### Redis ###
-# Ignore redis binary dump (dump.rdb) files
-
-*.rdb
-
-# End of https://www.toptal.com/developers/gitignore/api/redis,python
+# Mac
+.DS_Store

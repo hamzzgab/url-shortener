@@ -23,7 +23,7 @@ brew install redis
 ### Basic Key Operations
 
 ```bash
-SET age 25        # Store a value
+SET age 25        # Store a code
 GET age           # → "25"
 DEL age           # → (integer) 1
 EXISTS name       # → (integer) 1 if key exists
@@ -36,7 +36,7 @@ FLUSHALL          # Delete everything
 ```bash
 TTL name             # Check remaining TTL (-1 = no expiry, -2 = key gone)
 EXPIRE name 10       # Set expiry of 10 seconds on existing key
-SETEX name 10 hamza  # Set key with value AND expiry in one command
+SETEX name 10 hamza  # Set key with code AND expiry in one command
 ```
 
 ---

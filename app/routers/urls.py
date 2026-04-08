@@ -21,7 +21,7 @@ def shorten_url(url: str):
     return {"encoding": str(COUNTER)}
 
 
-@router.get('/{_id}')
+@router.get('/{code}')
 def get_url(_id: str):
     url = None
     for key, val in ENCODED_URL.items():

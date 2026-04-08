@@ -1,8 +1,9 @@
 from fastapi import FastAPI
 
+from app.database import lifespan
 from app.routers import urls
 
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/")

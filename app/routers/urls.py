@@ -9,6 +9,7 @@ from app.database import SessionDep, get_session
 from app.models import Urls, UrlCreate
 from app.utils import Base62
 
+TTL = 60 * 3
 router = APIRouter(prefix='/urls', tags=['urls'])
 r = redis.Redis(host='localhost', port=6379, db=0, decode_responses=True)
 base_62 = Base62()
@@ -23,7 +24,7 @@ def get_urls(limit: int = 10, skip: int = 0, session: SessionDep = Depends(get_s
     query = select(Urls).limit(limit).offset(skip)
     results = session.exec(query).all()
     data = [Urls.model_validate(res).model_dump(mode='json') for res in results]
-    r.set(key, json.dumps(data), ex=60 * 3)
+    r.set(key, json.dumps(data), ex=TTL)
     return results
 
 
@@ -56,5 +57,5 @@ def get_url(code: str, session: SessionDep = Depends(get_session)):
     result = session.exec(query).first()
     if not result:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='url not found')
-    r.setex(code, 60 * 3, result.long_url)
+    r.setex(code, TTL, result.long_url)
     return result

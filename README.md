@@ -27,11 +27,11 @@ This roadmap guides you through each milestone, from a basic health check endpoi
 ---
 
 ### **Milestone 3 — Add PostgreSQL**
-- [ ] Replace the dictionary with a PostgreSQL database  
-- [ ] Design a minimal table (e.g., `id`, `short_code`, `long_url`, timestamps)  
-- [ ] Use SQLAlchemy or raw `psycopg2`  
-- [ ] Write your own **Base62 encoder** (do not copy from libraries)  
-- [ ] Store and fetch URL mappings from the DB
+- [X] Replace the dictionary with a PostgreSQL database  
+- [X] Design a minimal table (e.g., `id`, `short_code`, `long_url`, timestamps)  
+- [X] Use SQLAlchemy or raw `psycopg2`  
+- [X] Write your own **Base62 encoder** (do not copy from libraries)  
+- [X] Store and fetch URL mappings from the DB
 
 ---
 

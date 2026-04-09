@@ -2,7 +2,7 @@ from fastapi import APIRouter, status, HTTPException
 from sqlmodel import select, col
 
 from app.database import SessionDep
-from app.models import Urls, UrlResponse
+from app.models import Urls
 from app.utils import Base62
 
 router = APIRouter(prefix='/urls', tags=['urls'])
@@ -13,8 +13,6 @@ base_62 = Base62()
 def get_urls(session: SessionDep):
     query = select(Urls)
     result = session.exec(query).all()
-    if not result:
-        raise HTTPException(status_code=status.HTTP_204_NO_CONTENT, detail='no urls')
     return result
 
 
@@ -27,8 +25,7 @@ def shorten_url(url: Urls, session: SessionDep):
     session.commit()
     session.refresh(url)
 
-    url_id = session.exec(query).first().id
-    url.short_url = base_62.encoder(url_id)
+    url.short_url = base_62.encoder(url.id)
     session.add(url)
     session.commit()
     session.refresh(url)
@@ -36,7 +33,7 @@ def shorten_url(url: Urls, session: SessionDep):
     return url
 
 
-@router.get('/{code}', status_code=status.HTTP_200_OK, response_model=UrlResponse)
+@router.get('/{code}', status_code=status.HTTP_200_OK)
 def get_url(code: str, session: SessionDep):
     query = select(Urls).where(col(Urls.short_url) == code)
     result = session.exec(query).first()

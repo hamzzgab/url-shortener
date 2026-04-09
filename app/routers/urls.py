@@ -1,6 +1,7 @@
+import json
+
 import redis
 from fastapi import APIRouter, status, HTTPException
-from fastapi.responses import RedirectResponse
 from sqlmodel import select, col
 
 from app.database import SessionDep
@@ -13,10 +14,16 @@ base_62 = Base62()
 
 
 @router.get('/', response_model=list[Urls])
-def get_urls(session: SessionDep):
-    query = select(Urls)
-    result = session.exec(query).all()
-    return result
+def get_urls(limit: int = 10, skip: int = 0, session: SessionDep = None):
+    key = f'limit:{limit}/skip:{skip}'
+    cache = r.get(key)
+    if cache:
+        return json.loads(cache)
+    query = select(Urls).limit(limit).offset(skip)
+    results = session.exec(query).all()
+    data = [Urls.model_validate(res).model_dump(mode='json') for res in results]
+    r.set(key, json.dumps(data), ex=60 * 3)
+    return results
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=Urls)
@@ -39,26 +46,14 @@ def shorten_url(url: UrlCreate, session: SessionDep):
     return db_url
 
 
-@router.get('/{code}', status_code=status.HTTP_301_MOVED_PERMANENTLY)
+@router.get('/{code}', status_code=status.HTTP_200_OK, response_model=UrlCreate)
 def get_url(code: str, session: SessionDep):
-    import time
-
-    start = time.perf_counter()
     cache = r.get(code)
     if cache:
-        elapsed = (time.perf_counter() - start) * 1000
-        print(f"[CACHE HIT] {code} -> {cache} (took {elapsed:.2f} ms)")
-        return RedirectResponse(url=cache, status_code=301)
-
-    db_start = time.perf_counter()
+        return {"long_url": cache}
     query = select(Urls).where(col(Urls.short_url) == code)
     result = session.exec(query).first()
-    db_elapsed = (time.perf_counter() - db_start) * 1000
     if not result:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='url not found')
     r.setex(code, 60 * 3, result.long_url)
-    total_elapsed = (time.perf_counter() - start) * 1000
-    print(
-        f"[CACHE MISS] DB query took {db_elapsed:.2f} ms, total {total_elapsed:.2f} ms"
-    )
-    return RedirectResponse(url=str(result.long_url), status_code=301)
+    return result

@@ -1,7 +1,12 @@
 from datetime import datetime
 
+from pydantic import AnyHttpUrl
 from sqlalchemy import Column, TIMESTAMP, text
 from sqlmodel import Field, SQLModel
+
+
+class UrlCreate(SQLModel):
+    long_url: AnyHttpUrl
 
 
 class Urls(SQLModel, table=True):
@@ -12,7 +17,3 @@ class Urls(SQLModel, table=True):
         default=None,
         sa_column=Column(TIMESTAMP(timezone=True), nullable=False, server_default=text("CURRENT_TIMESTAMP"))
     )
-
-
-class UrlResponse(SQLModel):
-    long_url: str

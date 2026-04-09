@@ -29,9 +29,6 @@ DATABASE_PORT=
 DATABASE_PASSWORD=
 DATABASE_NAME=
 DATABASE_USERNAME=
-REDIS_HOST=
-REDIS_PORT=
-REDIS_DB=
 ```
 
 ### Run
@@ -76,15 +73,3 @@ Look up a short code.
 
 **Returns:** `Urls` object.  
 **Errors:** `404` if code not found.
-
----
-
-## Seeding
-
-To populate the database with dummy data:
-
-```bash
-pip install faker
-python seed.py              # 10 000 rows (default)
-python seed.py 1000000000   # 1B rows (uses PostgreSQL COPY for speed)
-```

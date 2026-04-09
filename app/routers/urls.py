@@ -2,9 +2,10 @@ import json
 
 import redis
 from fastapi import APIRouter, status, HTTPException
+from fastapi.params import Depends
 from sqlmodel import select, col
 
-from app.database import SessionDep
+from app.database import SessionDep, get_session
 from app.models import Urls, UrlCreate
 from app.utils import Base62
 
@@ -14,7 +15,7 @@ base_62 = Base62()
 
 
 @router.get('/', response_model=list[Urls])
-def get_urls(limit: int = 10, skip: int = 0, session: SessionDep = None):
+def get_urls(limit: int = 10, skip: int = 0, session: SessionDep = Depends(get_session)):
     key = f'limit:{limit}/skip:{skip}'
     cache = r.get(key)
     if cache:
@@ -27,7 +28,7 @@ def get_urls(limit: int = 10, skip: int = 0, session: SessionDep = None):
 
 
 @router.post('/', status_code=status.HTTP_201_CREATED, response_model=Urls)
-def shorten_url(url: UrlCreate, session: SessionDep):
+def shorten_url(url: UrlCreate, session: SessionDep = Depends(get_session)):
     long_url_str = str(url.long_url)
     query = select(Urls).where(col(Urls.long_url) == long_url_str)
     if session.exec(query).all():
@@ -47,7 +48,7 @@ def shorten_url(url: UrlCreate, session: SessionDep):
 
 
 @router.get('/{code}', status_code=status.HTTP_200_OK, response_model=UrlCreate)
-def get_url(code: str, session: SessionDep):
+def get_url(code: str, session: SessionDep = Depends(get_session)):
     cache = r.get(code)
     if cache:
         return {"long_url": cache}

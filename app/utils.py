@@ -1,15 +1,13 @@
 class Base62:
     __CHARS = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-    @staticmethod
-    def encoder(self, _id, base=62):
-        if _id < 0:
+    def encoder(self, url_id, base=62):
+        if url_id < 0:
             raise ValueError("Value less than 0")
-        if _id < base:
-            return self.__CHARS[_id]
-        return self.encoder(_id // base, base) + self.__CHARS[_id % base]
+        if url_id < base:
+            return self.__CHARS[url_id]
+        return self.encoder(url_id // base, base) + self.__CHARS[url_id % base]
 
-    @staticmethod
     def decoder(self, code, base=62):
         res, length = 0, len(code)
         for i, val in enumerate(code):
